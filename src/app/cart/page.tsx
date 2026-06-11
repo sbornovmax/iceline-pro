@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Trash2, ChevronRight, ShoppingCart, Tag, Truck } from 'lucide-react'
+import { Trash2, ChevronRight, ShoppingCart, Tag, Truck, Shield } from 'lucide-react'
 import { PRODUCTS } from '@/lib/data'
 
 const INITIAL_CART = [
