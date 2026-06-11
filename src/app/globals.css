@@ -1,27 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply font-sans text-ice-black bg-white antialiased;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer components {
+  .btn-red {
+    @apply inline-flex items-center justify-center gap-2 bg-ice-red text-white font-bold px-6 py-3 rounded-none hover:bg-ice-red-dark transition-colors duration-200 text-sm uppercase tracking-wider;
+  }
+  .btn-black {
+    @apply inline-flex items-center justify-center gap-2 bg-ice-black text-white font-bold px-6 py-3 rounded-none hover:bg-ice-graphite transition-colors duration-200 text-sm uppercase tracking-wider;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border-2 border-ice-black text-ice-black font-bold px-6 py-3 rounded-none hover:bg-ice-black hover:text-white transition-colors duration-200 text-sm uppercase tracking-wider;
+  }
+  .section-title {
+    @apply text-2xl md:text-3xl font-black uppercase tracking-tight text-ice-black;
+  }
+  .badge-new {
+    @apply bg-ice-red text-white text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider;
+  }
+  .badge-sale {
+    @apply bg-ice-black text-white text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider;
+  }
+  .price {
+    @apply text-xl font-black text-ice-black;
+  }
+  .price-old {
+    @apply text-sm text-gray-400 line-through;
+  }
+  .input-field {
+    @apply w-full border border-gray-200 px-4 py-3 text-sm outline-none focus:border-ice-red transition-colors;
+  }
+  .container-ice {
+    @apply max-w-[1400px] mx-auto px-4 md:px-6;
   }
 }
