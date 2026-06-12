@@ -1,14 +1,21 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Heart, BarChart2, ShoppingCart, Star } from 'lucide-react'
+import { Heart, BarChart2, ShoppingCart, Star, Check } from 'lucide-react'
 import type { Product } from '@/lib/data'
+import { useCart } from '@/context/CartContext'
 
-interface Props { product: Product }
-
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({ product }: { product: Product }) {
+  const { addItem } = useCart()
   const [fav, setFav] = useState(false)
+  const [added, setAdded] = useState(false)
   const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : null
+
+  const handleAdd = () => {
+    addItem(product)
+    setAdded(true)
+    setTimeout(() => setAdded(false), 1500)
+  }
 
   return (
     <div className="group bg-white border border-gray-100 hover:border-ice-red hover:shadow-lg transition-all duration-300 relative flex flex-col">
@@ -16,7 +23,7 @@ export default function ProductCard({ product }: Props) {
       <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
         {product.badge === 'new' && <span className="badge-new">Новинка</span>}
         {product.badge === 'sale' && discount && <span className="badge-sale">-{discount}%</span>}
-        {product.badge === 'hit' && <span className="bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider">Хит</span>}
+        {product.badge === 'hit' && <span className="bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 uppercase">Хит</span>}
       </div>
 
       {/* Action buttons */}
@@ -32,17 +39,15 @@ export default function ProductCard({ product }: Props) {
 
       {/* Image */}
       <Link href={`/product/${product.slug}`} className="block overflow-hidden bg-ice-gray aspect-square">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-        />
+        <img src={product.image} alt={product.name}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
       </Link>
 
       {/* Content */}
       <div className="p-4 flex flex-col flex-1">
         <p className="text-[10px] font-bold uppercase tracking-widest text-ice-red mb-1">{product.brand}</p>
-        <Link href={`/product/${product.slug}`} className="text-sm font-semibold text-ice-black hover:text-ice-red transition-colors leading-snug line-clamp-2 mb-2 flex-1">
+        <Link href={`/product/${product.slug}`}
+          className="text-sm font-semibold text-ice-black hover:text-ice-red transition-colors leading-snug line-clamp-2 mb-2 flex-1">
           {product.name}
         </Link>
 
@@ -56,14 +61,15 @@ export default function ProductCard({ product }: Props) {
           <span className="text-[10px] text-gray-400">({product.reviewCount})</span>
         </div>
 
-        {/* Price */}
+        {/* Price + Cart */}
         <div className="flex items-end justify-between">
           <div>
             <div className="price">{product.price.toLocaleString('ru-RU')} ₽</div>
             {product.oldPrice && <div className="price-old">{product.oldPrice.toLocaleString('ru-RU')} ₽</div>}
           </div>
-          <button className="bg-ice-black text-white w-9 h-9 flex items-center justify-center hover:bg-ice-red transition-colors">
-            <ShoppingCart size={16} />
+          <button onClick={handleAdd}
+            className={`w-9 h-9 flex items-center justify-center transition-all ${added ? 'bg-green-500 text-white scale-110' : 'bg-ice-black text-white hover:bg-ice-red'}`}>
+            {added ? <Check size={16} /> : <ShoppingCart size={16} />}
           </button>
         </div>
       </div>
