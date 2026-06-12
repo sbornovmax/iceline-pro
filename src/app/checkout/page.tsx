@@ -2,27 +2,38 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { ChevronRight, Check, CreditCard, Truck, Package } from 'lucide-react'
+import { useCart } from '@/context/CartContext'
+import { useRouter } from 'next/navigation'
 
 const STEPS = ['Данные', 'Доставка', 'Оплата']
 
 export default function CheckoutPage() {
+  const { items, total, clearCart } = useCart()
+  const router = useRouter()
   const [step, setStep] = useState(0)
+  const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({ name: '', phone: '', email: '', city: '', address: '', delivery: '', payment: '' })
-  const [done, setDone] = useState(false)
+  const u = (f: string, v: string) => setForm(p => ({ ...p, [f]: v }))
 
-  function u(f: string, v: string) { setForm(p => ({ ...p, [f]: v })) }
-
-  if (done) return (
-    <div className="container-ice py-20 text-center max-w-lg mx-auto">
-      <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <Check size={40} className="text-green-600" />
-      </div>
-      <h1 className="text-3xl font-black mb-3">Заказ оформлен!</h1>
-      <p className="text-gray-500 mb-2">Номер заказа: <strong>#ICE-2026-0042</strong></p>
-      <p className="text-gray-500 mb-8">Мы отправили подтверждение на {form.email}</p>
-      <Link href="/" className="btn-red">На главную</Link>
-    </div>
-  )
+  const handleConfirm = async () => {
+    setLoading(true)
+    try {
+      await fetch('/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...form,
+          items: items.map(i => ({ name: i.name, size: i.size, qty: i.qty, price: i.price })),
+          total,
+          address: `${form.city}, ${form.address}`,
+        }),
+      })
+    } catch (e) {
+      console.error(e)
+    }
+    setLoading(false)
+    router.push('/checkout/success')
+  }
 
   return (
     <div className="container-ice py-6 max-w-2xl mx-auto">
@@ -36,7 +47,7 @@ export default function CheckoutPage() {
 
       <h1 className="section-title mb-8">Оформление заказа</h1>
 
-      {/* Steps */}
+      {/* Steps indicator */}
       <div className="flex items-center mb-8">
         {STEPS.map((s, i) => (
           <div key={s} className="flex items-center flex-1 last:flex-none">
@@ -51,105 +62,95 @@ export default function CheckoutPage() {
         ))}
       </div>
 
+      {/* Cart summary (show on all steps) */}
+      {items.length > 0 && (
+        <div className="border border-gray-100 p-4 mb-6 bg-gray-50">
+          <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Ваш заказ</p>
+          <div className="space-y-1.5">
+            {items.map(item => (
+              <div key={`${item.id}-${item.size}`} className="flex justify-between text-sm">
+                <span className="text-gray-600 truncate flex-1">{item.name} {item.size && <span className="text-gray-400">({item.size})</span>} × {item.qty}</span>
+                <span className="font-bold ml-3 flex-shrink-0">{(item.price * item.qty).toLocaleString('ru-RU')} ₽</span>
+              </div>
+            ))}
+          </div>
+          <div className="border-t mt-3 pt-2 flex justify-between font-black">
+            <span>Итого</span><span>{total.toLocaleString('ru-RU')} ₽</span>
+          </div>
+        </div>
+      )}
+
       <div className="border border-gray-100 p-6">
-        {/* Step 1: Personal data */}
         {step === 0 && (
           <div className="space-y-4">
-            <p className="font-bold uppercase tracking-wider text-sm mb-4">Личные данные</p>
-            <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-gray-400 block mb-1">ФИО *</label>
-              <input value={form.name} onChange={e => u('name', e.target.value)} className="input-field" placeholder="Иванов Иван Иванович" />
-            </div>
-            <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-gray-400 block mb-1">Телефон *</label>
-              <input value={form.phone} onChange={e => u('phone', e.target.value)} className="input-field" placeholder="+7 (900) 000-00-00" />
-            </div>
-            <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-gray-400 block mb-1">Email *</label>
-              <input value={form.email} onChange={e => u('email', e.target.value)} className="input-field" placeholder="ivan@example.com" type="email" />
-            </div>
+            <p className="font-bold uppercase tracking-wider text-sm mb-2">Личные данные</p>
+            {[{l:'ФИО *',k:'name',t:'text',p:'Иванов Иван Иванович'},{l:'Телефон *',k:'phone',t:'tel',p:'+7 (900) 000-00-00'},{l:'Email *',k:'email',t:'email',p:'ivan@example.com'}].map(({l,k,t,p}) => (
+              <div key={k}>
+                <label className="text-xs font-bold uppercase tracking-wider text-gray-400 block mb-1">{l}</label>
+                <input type={t} value={(form as any)[k]} onChange={e => u(k, e.target.value)} className="input-field" placeholder={p} />
+              </div>
+            ))}
           </div>
         )}
 
-        {/* Step 2: Delivery */}
         {step === 1 && (
           <div className="space-y-4">
-            <p className="font-bold uppercase tracking-wider text-sm mb-4">Способ доставки</p>
+            <p className="font-bold uppercase tracking-wider text-sm mb-2">Способ доставки</p>
             {[
-              { id: 'cdek', icon: Truck, label: 'СДЭК', desc: 'Доставка 2–5 дней', price: '350 ₽ / Бесплатно от 5 000 ₽' },
-              { id: 'post', icon: Package, label: 'Почта России', desc: 'Доставка 5–14 дней', price: '250 ₽' },
-              { id: 'pickup', icon: Check, label: 'Самовывоз', desc: 'Бесплатно, по готовности', price: 'Бесплатно' },
+              { id: 'cdek', icon: Truck, label: 'СДЭК', desc: '2–5 дней', price: 'от 250 ₽ / бесплатно от 5 000 ₽' },
+              { id: 'post', icon: Package, label: 'Почта России', desc: '5–14 дней', price: 'от 200 ₽' },
+              { id: 'pickup', icon: Check, label: 'Самовывоз', desc: 'Готовность 1–2 дня', price: 'Бесплатно' },
             ].map(({ id, icon: Icon, label, desc, price }) => (
               <label key={id} className={`flex items-center gap-4 p-4 border-2 cursor-pointer transition-all ${form.delivery === id ? 'border-ice-red' : 'border-gray-100 hover:border-gray-200'}`}>
                 <input type="radio" name="delivery" value={id} checked={form.delivery === id} onChange={() => u('delivery', id)} className="accent-ice-red" />
                 <Icon size={20} className="text-ice-red flex-shrink-0" />
-                <div className="flex-1">
-                  <p className="font-bold text-sm">{label}</p>
-                  <p className="text-xs text-gray-400">{desc}</p>
-                </div>
-                <span className="text-sm font-bold text-ice-red">{price}</span>
+                <div className="flex-1"><p className="font-bold text-sm">{label}</p><p className="text-xs text-gray-400">{desc}</p></div>
+                <span className="text-xs font-bold text-ice-red">{price}</span>
               </label>
             ))}
-            {form.delivery !== 'pickup' && (
-              <div className="space-y-3 mt-4">
-                <div>
-                  <label className="text-xs font-bold uppercase tracking-wider text-gray-400 block mb-1">Город</label>
-                  <input value={form.city} onChange={e => u('city', e.target.value)} className="input-field" placeholder="Москва" />
-                </div>
-                <div>
-                  <label className="text-xs font-bold uppercase tracking-wider text-gray-400 block mb-1">Адрес</label>
-                  <input value={form.address} onChange={e => u('address', e.target.value)} className="input-field" placeholder="ул. Примерная, д. 1, кв. 1" />
-                </div>
+            {form.delivery && form.delivery !== 'pickup' && (
+              <div className="space-y-3 mt-2">
+                {[{l:'Город',k:'city',p:'Москва'},{l:'Адрес',k:'address',p:'ул. Примерная, д. 1, кв. 1'}].map(({l,k,p}) => (
+                  <div key={k}>
+                    <label className="text-xs font-bold uppercase tracking-wider text-gray-400 block mb-1">{l}</label>
+                    <input value={(form as any)[k]} onChange={e => u(k, e.target.value)} className="input-field" placeholder={p} />
+                  </div>
+                ))}
               </div>
             )}
           </div>
         )}
 
-        {/* Step 3: Payment */}
         {step === 2 && (
           <div className="space-y-4">
-            <p className="font-bold uppercase tracking-wider text-sm mb-4">Способ оплаты</p>
+            <p className="font-bold uppercase tracking-wider text-sm mb-2">Способ оплаты</p>
             {[
-              { id: 'card', label: 'Банковская карта', desc: 'Visa, Mastercard, МИР', extra: 'Безопасная оплата через ЮKassa' },
-              { id: 'sbp', label: 'СБП', desc: 'Система быстрых платежей', extra: 'Мгновенная оплата' },
-              { id: 'tinkoff', label: 'Тинькофф', desc: 'Оплата через Тинькофф', extra: null },
+              { id: 'card', label: 'Банковская карта', desc: 'Visa, Mastercard, МИР', extra: 'Безопасно через ЮKassa' },
+              { id: 'sbp', label: 'СБП', desc: 'Система быстрых платежей', extra: 'Мгновенно' },
+              { id: 'tinkoff', label: 'Тинькофф', desc: 'Tinkoff Pay', extra: 'Кешбэк баллами' },
               { id: 'cash', label: 'Наличными', desc: 'При самовывозе', extra: null },
             ].map(({ id, label, desc, extra }) => (
               <label key={id} className={`flex items-center gap-4 p-4 border-2 cursor-pointer transition-all ${form.payment === id ? 'border-ice-red' : 'border-gray-100 hover:border-gray-200'}`}>
                 <input type="radio" name="payment" value={id} checked={form.payment === id} onChange={() => u('payment', id)} className="accent-ice-red" />
                 <CreditCard size={20} className="text-ice-red flex-shrink-0" />
-                <div>
-                  <p className="font-bold text-sm">{label}</p>
-                  <p className="text-xs text-gray-400">{desc}</p>
-                  {extra && <p className="text-xs text-green-600 mt-0.5">{extra}</p>}
-                </div>
+                <div><p className="font-bold text-sm">{label}</p><p className="text-xs text-gray-400">{desc}</p>{extra && <p className="text-xs text-green-600">{extra}</p>}</div>
               </label>
             ))}
-
-            {/* Order summary */}
-            <div className="border-t pt-4 mt-4">
-              <div className="space-y-1 text-sm mb-3">
-                <div className="flex justify-between"><span className="text-gray-500">Товары</span><span>124 980 ₽</span></div>
-                <div className="flex justify-between"><span className="text-gray-500">Доставка</span><span className="text-green-600">Бесплатно</span></div>
-              </div>
-              <div className="flex justify-between font-black text-xl">
-                <span>Итого</span><span>124 980 ₽</span>
-              </div>
-            </div>
           </div>
         )}
       </div>
 
-      {/* Navigation */}
       <div className="flex justify-between mt-6">
-        <button onClick={() => step > 0 ? setStep(s => s - 1) : null}
-          className={`btn-outline ${step === 0 ? 'opacity-0 pointer-events-none' : ''}`}>
-          ← Назад
-        </button>
+        {step > 0 ? (
+          <button onClick={() => setStep(s => s - 1)} className="btn-outline">← Назад</button>
+        ) : <div />}
         <button
-          onClick={() => step < STEPS.length - 1 ? setStep(s => s + 1) : setDone(true)}
-          className="btn-red px-8">
-          {step < STEPS.length - 1 ? 'Далее →' : '✓ Подтвердить заказ'}
+          onClick={() => step < STEPS.length - 1 ? setStep(s => s + 1) : handleConfirm()}
+          disabled={loading}
+          className={`btn-red px-8 flex items-center gap-2 ${loading ? 'opacity-70' : ''}`}>
+          {loading ? (
+            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          ) : step < STEPS.length - 1 ? 'Далее →' : '✓ Подтвердить заказ'}
         </button>
       </div>
     </div>
