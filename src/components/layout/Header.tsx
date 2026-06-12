@@ -4,12 +4,22 @@ import Link from 'next/link'
 import { Search, User, Heart, BarChart2, Phone, Menu, X, ChevronDown, MessageCircle } from 'lucide-react'
 import { CATEGORIES } from '@/lib/data'
 import CartIcon from '@/components/ui/CartIcon'
+import { useRouter } from 'next/navigation'
 
 export default function Header() {
+  const router = useRouter()
   const [menuOpen, setMenuOpen] = useState(false)
   const [megaOpen, setMegaOpen] = useState(false)
   const [activeCat, setActiveCat] = useState(CATEGORIES[0])
   const [search, setSearch] = useState('')
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (search.trim().length > 1) {
+      router.push(`/search?q=${encodeURIComponent(search.trim())}`)
+      setSearch('')
+    }
+  }
 
   return (
     <>
@@ -35,7 +45,6 @@ export default function Header() {
       <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
         <div className="container-ice">
           <div className="flex items-center gap-4 h-16">
-            {/* Logo */}
             <Link href="/" className="flex-shrink-0">
               <div className="flex items-center gap-0.5">
                 <span className="text-2xl font-black tracking-tighter text-ice-black">ICELINE</span>
@@ -43,21 +52,18 @@ export default function Header() {
               </div>
             </Link>
 
-            {/* Search */}
-            <div className="flex-1 max-w-2xl mx-2 md:mx-4">
+            {/* Search form */}
+            <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-2 md:mx-4">
               <div className="relative flex">
-                <input
-                  type="text" value={search} onChange={e => setSearch(e.target.value)}
-                  placeholder="Поиск: коньки, клюшки, шлемы..."
-                  className="w-full border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-ice-red transition-colors pr-12"
-                />
-                <button className="absolute right-0 top-0 h-full bg-ice-red text-white px-4 flex items-center justify-center hover:bg-ice-red-dark transition-colors">
+                <input type="text" value={search} onChange={e => setSearch(e.target.value)}
+                  placeholder="Поиск: коньки Bauer, клюшки CCM..."
+                  className="w-full border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-ice-red transition-colors pr-12" />
+                <button type="submit" className="absolute right-0 top-0 h-full bg-ice-red text-white px-4 flex items-center justify-center hover:bg-ice-red-dark transition-colors">
                   <Search size={18} />
                 </button>
               </div>
-            </div>
+            </form>
 
-            {/* Icons */}
             <div className="flex items-center gap-0.5 flex-shrink-0">
               <Link href="/account" className="flex flex-col items-center gap-0.5 p-2 hover:text-ice-red transition-colors group">
                 <User size={20} />
@@ -79,53 +85,34 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Nav bar */}
+        {/* Nav */}
         <div className="bg-ice-black hidden md:block">
           <div className="container-ice">
             <nav className="flex items-center h-11">
-              <button
-                onMouseEnter={() => setMegaOpen(true)}
-                onMouseLeave={() => setMegaOpen(false)}
-                className="flex items-center gap-2 bg-ice-red text-white px-5 h-full font-bold text-sm uppercase tracking-wider hover:bg-ice-red-dark transition-colors"
-              >
+              <button onMouseEnter={() => setMegaOpen(true)} onMouseLeave={() => setMegaOpen(false)}
+                className="flex items-center gap-2 bg-ice-red text-white px-5 h-full font-bold text-sm uppercase tracking-wider hover:bg-ice-red-dark transition-colors">
                 <Menu size={16} /> Каталог
                 <ChevronDown size={14} className={`transition-transform ${megaOpen ? 'rotate-180' : ''}`} />
               </button>
-
-              {[
-                { label: 'Главная', href: '/' },
-                { label: 'О компании', href: '/about' },
-                { label: 'Доставка', href: '/delivery' },
-                { label: 'Оплата', href: '/payment' },
-                { label: 'Блог', href: '/blog' },
-                { label: 'Контакты', href: '/contacts' },
-              ].map(({ label, href }) => (
-                <Link key={href} href={href} className="px-4 h-full flex items-center text-sm text-gray-300 hover:text-white hover:bg-ice-graphite transition-colors">
-                  {label}
-                </Link>
+              {[{label:'Главная',href:'/'},{label:'О компании',href:'/about'},{label:'Доставка',href:'/delivery'},{label:'Оплата',href:'/payment'},{label:'Блог',href:'/blog'},{label:'Контакты',href:'/contacts'}].map(({label,href}) => (
+                <Link key={href} href={href} className="px-4 h-full flex items-center text-sm text-gray-300 hover:text-white hover:bg-ice-graphite transition-colors">{label}</Link>
               ))}
-
-              <div className="ml-auto flex items-center gap-3 text-sm pr-2">
-                <Link href="/sale" className="text-ice-red font-bold hover:text-white transition-colors">🔥 Распродажа</Link>
+              <div className="ml-auto pr-2">
+                <Link href="/sale" className="text-ice-red font-bold hover:text-white transition-colors text-sm">🔥 Распродажа</Link>
               </div>
             </nav>
           </div>
 
-          {/* Mega menu */}
           {megaOpen && (
-            <div
-              className="absolute left-0 right-0 bg-white shadow-2xl border-t-2 border-ice-red z-50"
-              onMouseEnter={() => setMegaOpen(true)}
-              onMouseLeave={() => setMegaOpen(false)}
-            >
+            <div className="absolute left-0 right-0 bg-white shadow-2xl border-t-2 border-ice-red z-50"
+              onMouseEnter={() => setMegaOpen(true)} onMouseLeave={() => setMegaOpen(false)}>
               <div className="container-ice py-6">
                 <div className="flex gap-0">
                   <div className="w-64 border-r border-gray-100 pr-4">
                     {CATEGORIES.map(cat => (
                       <button key={cat.id} onMouseEnter={() => setActiveCat(cat)}
                         className={`flex items-center gap-3 w-full px-3 py-2.5 text-sm text-left transition-colors ${activeCat.id === cat.id ? 'bg-ice-red text-white font-bold' : 'hover:bg-gray-50 text-gray-700'}`}>
-                        <span>{cat.icon}</span>
-                        <span>{cat.name}</span>
+                        <span>{cat.icon}</span><span>{cat.name}</span>
                         <ChevronDown size={12} className="ml-auto -rotate-90" />
                       </button>
                     ))}
@@ -143,7 +130,7 @@ export default function Header() {
                   </div>
                   <div className="w-56 ml-8 bg-gradient-to-br from-ice-black to-ice-graphite text-white p-5 flex flex-col justify-between">
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-ice-red mb-2">Специальное предложение</p>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-ice-red mb-2">Акция</p>
                       <p className="text-lg font-black leading-tight">BAUER VAPOR<br/>X5 PRO</p>
                       <p className="text-2xl font-black text-ice-red mt-2">-20%</p>
                     </div>
@@ -155,7 +142,6 @@ export default function Header() {
           )}
         </div>
 
-        {/* Mobile menu */}
         {menuOpen && (
           <div className="md:hidden bg-white border-t border-gray-100 animate-fade-in">
             <div className="p-4 space-y-1">
