@@ -1,70 +1,94 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createServerSupabaseClient } from '@/lib/supabase-server'
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID
+async function notifyTelegram(orderId: string, data: any) {
+  const token = process.env.TELEGRAM_BOT_TOKEN
+  const chatId = process.env.TELEGRAM_CHAT_ID
+  if (!token || !chatId) return
 
-async function sendTelegram(text: string) {
-  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
-    console.log('Telegram not configured. Message:', text)
-    return false
-  }
-  const res = await fetch(
-    `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text,
-        parse_mode: 'HTML',
-      }),
-    }
-  )
-  return res.ok
+  const itemsList = data.items?.map((i: any) =>
+    `  • ${i.name} ${i.size ? `(${i.size})` : ''} × ${i.qty} = ${(i.price * i.qty).toLocaleString('ru-RU')} ₽`
+  ).join('\n') ?? ''
+
+  const msg = `🏒 <b>НОВЫЙ ЗАКАЗ #${orderId}</b>
+
+👤 ${data.name} | ${data.phone}
+📦 ${data.delivery}
+💳 ${data.payment}
+
+🛒 Товары:
+${itemsList}
+
+💰 <b>Итого: ${data.total?.toLocaleString('ru-RU')} ₽</b>
+
+<a href="https://iceline-pro.vercel.app/admin">→ Открыть в админке</a>`
+
+  await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: chatId, text: msg, parse_mode: 'HTML' }),
+  })
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { name, phone, email, items, total, delivery, payment, address } = body
+    const supabase = await createServerSupabaseClient()
 
-    // Generate order ID
-    const orderId = `ICE-2026-${String(Math.floor(Math.random() * 9000) + 1000)}`
+    // Get current user (optional — guest orders allowed)
+    const { data: { user } } = await supabase.auth.getUser()
 
-    // Format items list
-    const itemsList = items?.map((item: any) =>
-      `  • ${item.name} ${item.size ? `(${item.size})` : ''} × ${item.qty} = ${(item.price * item.qty).toLocaleString('ru-RU')} ₽`
-    ).join('\n') ?? '  • Товары не указаны'
+    const subtotal = body.items?.reduce((s: number, i: any) => s + i.price * i.qty, 0) ?? body.total
+    const deliveryCost = subtotal >= 5000 ? 0 : 350
+    const total = subtotal + deliveryCost
 
-    // Telegram message
-    const message = `
-🏒 <b>НОВЫЙ ЗАКАЗ ICELINE PRO</b>
+    // Save order
+    const { data: order, error: orderError } = await supabase
+      .from('orders')
+      .insert({
+        user_id: user?.id ?? null,
+        customer_name: body.name,
+        customer_phone: body.phone,
+        customer_email: body.email,
+        delivery_method: body.delivery,
+        delivery_address: body.address,
+        payment_method: body.payment,
+        status: 'new',
+        subtotal,
+        delivery_cost: deliveryCost,
+        total,
+      })
+      .select()
+      .single()
 
-📦 <b>Заказ #${orderId}</b>
-📅 ${new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' })}
+    if (orderError) throw orderError
 
-👤 <b>Клиент:</b>
-  Имя: ${name ?? '—'}
-  Телефон: ${phone ?? '—'}
-  Email: ${email ?? '—'}
+    // Save order items
+    if (body.items?.length > 0 && order) {
+      await supabase.from('order_items').insert(
+        body.items.map((item: any) => ({
+          order_id: order.id,
+          product_name: item.name,
+          product_brand: item.brand,
+          product_slug: item.slug,
+          size: item.size || null,
+          qty: item.qty,
+          price: item.price,
+          total: item.price * item.qty,
+        }))
+      )
+    }
 
-🛒 <b>Состав заказа:</b>
-${itemsList}
+    // Send Telegram notification
+    await notifyTelegram(order?.order_number ?? 'N/A', { ...body, total })
 
-📍 <b>Доставка:</b> ${delivery ?? '—'}
-📮 <b>Адрес:</b> ${address ?? '—'}
-💳 <b>Оплата:</b> ${payment ?? '—'}
-
-💰 <b>ИТОГО: ${total?.toLocaleString('ru-RU') ?? '—'} ₽</b>
-
-🔗 <a href="https://iceline-pro.vercel.app/admin">Открыть в админке</a>
-    `.trim()
-
-    await sendTelegram(message)
-
-    return NextResponse.json({ success: true, orderId })
+    return NextResponse.json({
+      success: true,
+      orderId: order?.order_number,
+      orderUuid: order?.id,
+    })
   } catch (error) {
-    console.error('Order API error:', error)
-    return NextResponse.json({ success: false, error: 'Internal error' }, { status: 500 })
+    console.error('Order error:', error)
+    return NextResponse.json({ success: false, error: 'Server error' }, { status: 500 })
   }
 }
