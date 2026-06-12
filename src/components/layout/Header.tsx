@@ -4,10 +4,12 @@ import Link from 'next/link'
 import { Search, User, Heart, BarChart2, Phone, Menu, X, ChevronDown, MessageCircle } from 'lucide-react'
 import { CATEGORIES } from '@/lib/data'
 import CartIcon from '@/components/ui/CartIcon'
+import { useFav } from '@/context/FavContext'
 import { useRouter } from 'next/navigation'
 
 export default function Header() {
   const router = useRouter()
+  const { count: favCount } = useFav()
   const [menuOpen, setMenuOpen] = useState(false)
   const [megaOpen, setMegaOpen] = useState(false)
   const [activeCat, setActiveCat] = useState(CATEGORIES[0])
@@ -23,7 +25,6 @@ export default function Header() {
 
   return (
     <>
-      {/* Top bar */}
       <div className="bg-ice-black text-white text-xs py-2">
         <div className="container-ice flex items-center justify-between gap-4">
           <span className="text-gray-400 hidden sm:block">Бесплатная доставка от 5 000 ₽</span>
@@ -41,7 +42,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Main header */}
       <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
         <div className="container-ice">
           <div className="flex items-center gap-4 h-16">
@@ -52,7 +52,6 @@ export default function Header() {
               </div>
             </Link>
 
-            {/* Search form */}
             <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-2 md:mx-4">
               <div className="relative flex">
                 <input type="text" value={search} onChange={e => setSearch(e.target.value)}
@@ -65,12 +64,19 @@ export default function Header() {
             </form>
 
             <div className="flex items-center gap-0.5 flex-shrink-0">
-              <Link href="/account" className="flex flex-col items-center gap-0.5 p-2 hover:text-ice-red transition-colors group">
+              <Link href="/auth/login" className="flex flex-col items-center gap-0.5 p-2 hover:text-ice-red transition-colors group">
                 <User size={20} />
                 <span className="text-[10px] hidden md:block text-gray-500 group-hover:text-ice-red">Кабинет</span>
               </Link>
-              <Link href="/account?tab=favorites" className="flex flex-col items-center gap-0.5 p-2 hover:text-ice-red transition-colors group">
-                <Heart size={20} />
+              <Link href="/favorites" className="flex flex-col items-center gap-0.5 p-2 hover:text-ice-red transition-colors group relative">
+                <div className="relative">
+                  <Heart size={20} />
+                  {favCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-ice-red text-white text-[10px] w-4 h-4 flex items-center justify-center font-bold">
+                      {favCount}
+                    </span>
+                  )}
+                </div>
                 <span className="text-[10px] hidden md:block text-gray-500 group-hover:text-ice-red">Избранное</span>
               </Link>
               <Link href="/compare" className="flex flex-col items-center gap-0.5 p-2 hover:text-ice-red transition-colors group">
@@ -85,20 +91,18 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Nav */}
         <div className="bg-ice-black hidden md:block">
           <div className="container-ice">
             <nav className="flex items-center h-11">
               <button onMouseEnter={() => setMegaOpen(true)} onMouseLeave={() => setMegaOpen(false)}
                 className="flex items-center gap-2 bg-ice-red text-white px-5 h-full font-bold text-sm uppercase tracking-wider hover:bg-ice-red-dark transition-colors">
-                <Menu size={16} /> Каталог
-                <ChevronDown size={14} className={`transition-transform ${megaOpen ? 'rotate-180' : ''}`} />
+                <Menu size={16} /> Каталог <ChevronDown size={14} className={`transition-transform ${megaOpen ? 'rotate-180' : ''}`} />
               </button>
-              {[{label:'Главная',href:'/'},{label:'О компании',href:'/about'},{label:'Доставка',href:'/delivery'},{label:'Оплата',href:'/payment'},{label:'Блог',href:'/blog'},{label:'Контакты',href:'/contacts'}].map(({label,href}) => (
-                <Link key={href} href={href} className="px-4 h-full flex items-center text-sm text-gray-300 hover:text-white hover:bg-ice-graphite transition-colors">{label}</Link>
+              {[{l:'Главная',h:'/'},{l:'О компании',h:'/about'},{l:'Доставка',h:'/delivery'},{l:'Оплата',h:'/payment'},{l:'Блог',h:'/blog'},{l:'Контакты',h:'/contacts'}].map(({l,h}) => (
+                <Link key={h} href={h} className="px-4 h-full flex items-center text-sm text-gray-300 hover:text-white hover:bg-ice-graphite transition-colors">{l}</Link>
               ))}
               <div className="ml-auto pr-2">
-                <Link href="/sale" className="text-ice-red font-bold hover:text-white transition-colors text-sm">🔥 Распродажа</Link>
+                <Link href="/sale" className="text-ice-red font-bold hover:text-white text-sm">🔥 Распродажа</Link>
               </div>
             </nav>
           </div>
@@ -152,7 +156,7 @@ export default function Header() {
                 </Link>
               ))}
               <hr className="my-3" />
-              {[{l:'О компании',h:'/about'},{l:'Доставка',h:'/delivery'},{l:'Оплата',h:'/payment'},{l:'Блог',h:'/blog'},{l:'Контакты',h:'/contacts'}].map(({l,h}) => (
+              {[{l:'О компании',h:'/about'},{l:'Доставка',h:'/delivery'},{l:'Оплата',h:'/payment'},{l:'Блог',h:'/blog'},{l:'Контакты',h:'/contacts'},{l:'Войти',h:'/auth/login'}].map(({l,h}) => (
                 <Link key={h} href={h} onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-sm text-gray-600 hover:text-ice-red">{l}</Link>
               ))}
             </div>
