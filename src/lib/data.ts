@@ -13,13 +13,13 @@ export const CATEGORIES: Category[] = [
     subcategories: [{ name: 'Взрослые (SR)', slug: 'konki-sr' }, { name: 'Подростковые (INT)', slug: 'konki-int' }, { name: 'Юниорские (JR)', slug: 'konki-jr' }, { name: 'Детские (YTH)', slug: 'konki-yth' }, { name: 'Роликовые коньки', slug: 'rolikovye' }]
   },
   { id: '2', name: 'Хоккейные клюшки', slug: 'klyushki', icon: '🏒',
-    subcategories: [{ name: 'Взрослые (SR)', slug: 'klyushki-sr' }, { name: 'Подростковые (INT)', slug: 'klyushki-int' }, { name: 'Юниорские и Детские', slug: 'klyushki-jr' }, { name: 'Крюки, Трубы', slug: 'kruki' }, { name: 'Флорбол', slug: 'florbol' }]
+    subcategories: [{ name: 'Взрослые (SR)', slug: 'klyushki-sr' }, { name: 'Подростковые (INT)', slug: 'klyushki-int' }, { name: 'Юниорские (JR)', slug: 'klyushki-jr' }, { name: 'Детские (YTH)', slug: 'klyushki-yth' }, { name: 'Крюки, Трубы', slug: 'kruki' }, { name: 'Флорбол', slug: 'florbol' }]
   },
   { id: '3', name: 'Хоккейные шлемы', slug: 'shlemy', icon: '⛑️',
     subcategories: [{ name: 'Хоккейные шлемы', slug: 'shlemy-all' }, { name: 'Маски, Визоры', slug: 'maski' }, { name: 'Аксессуары для шлема', slug: 'aksessuary-shlem' }]
   },
   { id: '4', name: 'Хоккейные перчатки', slug: 'perchatki', icon: '🥊',
-    subcategories: [{ name: 'Взрослые (SR)', slug: 'perchatki-sr' }, { name: 'Юниорские и Детские', slug: 'perchatki-jr' }]
+    subcategories: [{ name: 'Взрослые (SR)', slug: 'perchatki-sr' }, { name: 'Подростковые (INT)', slug: 'perchatki-int' }, { name: 'Юниорские (JR)', slug: 'perchatki-jr' }, { name: 'Детские (YTH)', slug: 'perchatki-yth' }]
   },
   { id: '5', name: 'Хоккейная защита', slug: 'zashita', icon: '🛡️',
     subcategories: [{ name: 'Нагрудники', slug: 'nagrudniki' }, { name: 'Налокотники', slug: 'nalokotniki' }, { name: 'Трусы (шорты)', slug: 'trusy' }, { name: 'Щитки (наколенники)', slug: 'shitki' }]
@@ -28,9 +28,9 @@ export const CATEGORIES: Category[] = [
     subcategories: [{ name: 'Хоккейные сумки', slug: 'sumki' }, { name: 'Тейп и лента', slug: 'tejp' }, { name: 'Стельки', slug: 'stelki' }]
   },
   { id: '7', name: 'Для вратаря', slug: 'vratar', icon: '🥅',
-    subcategories: [{ name: 'Вратарские коньки', slug: 'vrat-konki' }, { name: 'Вратарская защита', slug: 'vrat-zashita' }, { name: 'Маски вратаря', slug: 'vrat-maski' }]
+    subcategories: [{ name: 'Вратарские коньки', slug: 'vrat-konki' }, { name: 'Вратарские перчатки', slug: 'vrat-perchatki' }, { name: 'Вратарские шлемы', slug: 'vrat-shlemy' }, { name: 'Вратарские нагрудники', slug: 'vrat-nagrudniki' }, { name: 'Вратарские налокотники', slug: 'vrat-nalokotniki' }, { name: 'Вратарские трусы (шорты)', slug: 'vrat-trusy' }, { name: 'Вратарские щитки (наколенники)', slug: 'vrat-shitki' }, { name: 'Маски вратаря', slug: 'vrat-maski' }]
   },
-  { id: '8', name: 'Детское снаряжение', slug: 'detskaya', icon: '👦',
+  { id: '8', name: 'Для детей', slug: 'detskaya', icon: '👦',
     subcategories: [{ name: 'Детские наборы', slug: 'nabory' }, { name: 'Детское снаряжение', slug: 'detskoe' }]
   },
 ]
