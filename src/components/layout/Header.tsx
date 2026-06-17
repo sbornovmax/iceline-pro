@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Search, User, Heart, BarChart2, Phone, Menu, X, ChevronDown, MessageCircle } from 'lucide-react'
+import { Search, User, Heart, BarChart2, Phone, Menu, X, ChevronDown, Send } from 'lucide-react'
 import { CATEGORIES } from '@/lib/data'
 import CartIcon from '@/components/ui/CartIcon'
 import { useFav } from '@/context/FavContext'
@@ -27,13 +27,24 @@ export default function Header() {
     <>
       <div className="bg-ice-black text-white text-xs py-2">
         <div className="container-ice flex items-center justify-between gap-4">
-          <span className="text-gray-400 hidden sm:block">Бесплатная доставка от 5 000 ₽</span>
-          <div className="flex items-center gap-4 ml-auto">
-            <a href="https://t.me/icelinepro" className="flex items-center gap-1 hover:text-ice-red transition-colors">
-              <MessageCircle size={12} /> Telegram
+          <div className="flex items-center gap-3">
+            <a href="https://vk.ru/club236946159" target="_blank" rel="noopener noreferrer"
+              className="hover:text-ice-red transition-colors font-bold text-[13px]" aria-label="VK">
+              VK
             </a>
-            <a href="tel:+79001234567" className="flex items-center gap-1 font-medium hover:text-ice-red transition-colors">
-              <Phone size={12} /> +7 (900) 123-45-67
+            <a href="https://t.me/iceline_pro" target="_blank" rel="noopener noreferrer"
+              className="hover:text-ice-red transition-colors" aria-label="Telegram">
+              <Send size={13} />
+            </a>
+            <a href="https://instagram.com/icelinepro.shop" target="_blank" rel="noopener noreferrer"
+              className="hover:text-ice-red transition-colors font-bold text-[13px]" aria-label="Instagram">
+              IG
+            </a>
+            <span className="text-gray-500 cursor-default select-none" title="Скоро">Max</span>
+          </div>
+          <div className="flex items-center gap-4 ml-auto">
+            <a href="tel:+79934703548" className="flex items-center gap-1 font-medium hover:text-ice-red transition-colors">
+              <Phone size={12} /> +7 993 470 3548
             </a>
             <button className="bg-ice-red text-white px-3 py-1 text-[11px] font-bold uppercase hover:bg-ice-red-dark transition-colors">
               Перезвоните мне
@@ -47,8 +58,8 @@ export default function Header() {
           <div className="flex items-center gap-4 h-16">
             <Link href="/" className="flex-shrink-0">
               <div className="flex items-center gap-0.5">
-                <span className="text-2xl font-black tracking-tighter text-ice-black">ICELINE</span>
-                <span className="text-2xl font-black tracking-tighter text-ice-red">PRO</span>
+                <span className="text-2xl font-black tracking-tighter text-ice-black">АЙСЛАЙН</span>
+                <span className="text-2xl font-black tracking-tighter text-ice-red">ПРО</span>
               </div>
             </Link>
 
@@ -114,11 +125,11 @@ export default function Header() {
                 <div className="flex gap-0">
                   <div className="w-64 border-r border-gray-100 pr-4">
                     {CATEGORIES.map(cat => (
-                      <button key={cat.id} onMouseEnter={() => setActiveCat(cat)}
+                      <Link key={cat.id} href={`/catalog/${cat.slug}`} onMouseEnter={() => setActiveCat(cat)}
                         className={`flex items-center gap-3 w-full px-3 py-2.5 text-sm text-left transition-colors ${activeCat.id === cat.id ? 'bg-ice-red text-white font-bold' : 'hover:bg-gray-50 text-gray-700'}`}>
                         <span>{cat.icon}</span><span>{cat.name}</span>
                         <ChevronDown size={12} className="ml-auto -rotate-90" />
-                      </button>
+                      </Link>
                     ))}
                   </div>
                   <div className="flex-1 pl-8">

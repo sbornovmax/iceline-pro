@@ -14,7 +14,7 @@ export default function DeliveryPage() {
 
       <h1 className="section-title mb-8">Доставка и оплата</h1>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* CDEK */}
         <div className="border border-gray-100 p-6">
           <div className="flex items-center gap-3 mb-4">
@@ -35,13 +35,9 @@ export default function DeliveryPage() {
               <span className="text-gray-500">До пункта выдачи</span>
               <span className="font-semibold">от 250 ₽</span>
             </div>
-            <div className="flex justify-between py-2 border-b border-gray-50">
+            <div className="flex justify-between py-2">
               <span className="text-gray-500">Курьером до двери</span>
               <span className="font-semibold">от 350 ₽</span>
-            </div>
-            <div className="flex justify-between py-2">
-              <span className="text-gray-500">Бесплатно при заказе</span>
-              <span className="font-bold text-green-600">от 5 000 ₽</span>
             </div>
           </div>
         </div>
@@ -117,15 +113,27 @@ export default function DeliveryPage() {
               <span className="font-semibold">1 рабочий день</span>
             </div>
             <div className="flex justify-between py-2 border-b border-gray-50">
-              <span className="span text-gray-500">Заказ до 14:00</span>
+              <span className="text-gray-500">Заказ до 14:00</span>
               <span className="font-semibold">Отправка в тот же день</span>
             </div>
             <div className="flex justify-between py-2">
               <span className="text-gray-500">Рабочие дни</span>
-              <span className="font-semibold">Пн–Пт 9:00–18:00</span>
+              <span className="font-semibold">Пн–Пт 10:00–18:00</span>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Other carriers */}
+      <h2 className="section-title mb-6">Другие службы доставки</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        {['DPD', 'Деловые линии', 'Яндекс.Доставка', '5POST'].map(name => (
+          <div key={name} className="border border-gray-100 p-5 text-center hover:border-ice-red transition-colors">
+            <Truck size={22} className="text-ice-red mx-auto mb-2" />
+            <p className="font-bold text-sm">{name}</p>
+            <p className="text-xs text-gray-400 mt-1">Доставка по всей России</p>
+          </div>
+        ))}
       </div>
 
       {/* Payment */}
@@ -134,7 +142,7 @@ export default function DeliveryPage() {
         {[
           { title: 'Банковская карта', desc: 'Visa, Mastercard, МИР. Безопасная оплата через ЮKassa', color: 'border-blue-200 bg-blue-50' },
           { title: 'СБП', desc: 'Система быстрых платежей. Мгновенное зачисление', color: 'border-green-200 bg-green-50' },
-          { title: 'Тинькофф', desc: 'Оплата через Тинькофф Pay с кешбэком', color: 'border-yellow-200 bg-yellow-50' },
+          { title: 'Т-Банк', desc: 'Оплата через Т-Банк Pay с кешбэком', color: 'border-yellow-200 bg-yellow-50' },
           { title: 'Я.Сплит', desc: 'Рассрочка на 4 платежа без процентов', color: 'border-purple-200 bg-purple-50' },
         ].map(({ title, desc, color }) => (
           <div key={title} className={`border p-5 ${color}`}>
@@ -149,9 +157,9 @@ export default function DeliveryPage() {
       <h2 className="section-title mb-6">Частые вопросы</h2>
       <div className="space-y-3 max-w-2xl mb-10">
         {[
-          { q: 'Как отследить заказ?', a: 'После отправки вы получите номер трека на email. Отслеживание доступно на сайте СДЭК или Почты России.' },
+          { q: 'Как отследить заказ?', a: 'После отправки вы получите номер трека на email. Отслеживание доступно на сайтах СДЭК, Почта России, DPD, Деловые линии, Яндекс.Доставка, 5POST.' },
           { q: 'Можно ли изменить адрес доставки?', a: 'Да, до момента передачи товара в службу доставки. Позвоните нам по телефону.' },
-          { q: 'Что делать если товар поврежден?', a: 'Зафиксируйте повреждения при получении и свяжитесь с нами в течение 24 часов.' },
+          { q: 'Что делать, если товар поврежден?', a: 'Зафиксируйте повреждения при получении и свяжитесь с нами в течение 24 часов.' },
           { q: 'Как вернуть товар?', a: 'Возврат в течение 14 дней при сохранении товарного вида. Обратитесь к менеджеру.' },
         ].map(({ q, a }) => (
           <div key={q} className="border border-gray-100 p-4">
@@ -168,8 +176,8 @@ export default function DeliveryPage() {
           <p className="text-gray-400 text-sm mt-1">Наши менеджеры помогут с выбором и доставкой</p>
         </div>
         <div className="flex gap-3">
-          <a href="tel:+79001234567" className="btn-red flex items-center gap-2">
-            <Phone size={16} /> +7 (900) 123-45-67
+          <a href="tel:+79934703548" className="btn-red flex items-center gap-2">
+            <Phone size={16} /> +7 993 470 3548
           </a>
         </div>
       </div>

@@ -1,12 +1,12 @@
 import { Truck, Shield, RefreshCw, Headphones, Award, CreditCard } from 'lucide-react'
 
 const ADVANTAGES = [
-  { icon: Truck, title: 'Быстрая доставка', desc: 'СДЭК, Почта России по всей стране. Бесплатно от 5 000 ₽' },
+  { icon: Truck, title: 'Быстрая доставка', desc: 'СДЭК, Почта России по всей стране' },
   { icon: Shield, title: 'Гарантия качества', desc: 'Только оригинальная продукция от официальных дистрибьюторов' },
   { icon: RefreshCw, title: 'Возврат 14 дней', desc: 'Легкий возврат и обмен товара без лишних вопросов' },
   { icon: Headphones, title: 'Поддержка 24/7', desc: 'Опытные консультанты помогут подобрать снаряжение' },
   { icon: Award, title: 'Топ бренды', desc: 'Bauer, CCM, Warrior, Sherwood, Fischer и другие' },
-  { icon: CreditCard, title: 'Удобная оплата', desc: 'Карта, СБП, ЮKassa, Тинькофф. Рассрочка Я.Сплит' },
+  { icon: CreditCard, title: 'Удобная оплата', desc: 'Карта, СБП, ЮKassa, Т-Банк. Рассрочка Я.Сплит' },
 ]
 
 export default function WhyUs() {
@@ -15,7 +15,7 @@ export default function WhyUs() {
       <div className="container-ice">
         <div className="text-center mb-10">
           <p className="text-ice-red text-xs font-bold uppercase tracking-[0.3em] mb-3">Почему выбирают нас</p>
-          <h2 className="text-3xl font-black uppercase">ICELINE PRO — ваш надёжный<br />хоккейный магазин</h2>
+          <h2 className="text-3xl font-black uppercase">ICELINE PRO — ваш надежный<br />хоккейный магазин</h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {ADVANTAGES.map(({ icon: Icon, title, desc }) => (

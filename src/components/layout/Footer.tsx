@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { Phone, Mail, MessageCircle, Clock, Send } from 'lucide-react'
+import { Phone, Mail, Send, Clock } from 'lucide-react'
 import { useState } from 'react'
 
 export default function Footer() {
@@ -29,17 +29,17 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-0.5 mb-4">
-              <span className="text-2xl font-black text-white">ICELINE</span>
-              <span className="text-2xl font-black text-ice-red">PRO</span>
+              <span className="text-2xl font-black text-white">АЙСЛАЙН</span>
+              <span className="text-2xl font-black text-ice-red">ПРО</span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-4">
-              Профессиональное хоккейное снаряжение. Bauer, CCM, Warrior. Официальная гарантия.
+              Надежный хоккейный магазин с оригинальной экипировкой Bauer, CCM, Warrior для игроков всех уровней.
             </p>
             <div className="flex gap-3">
-              <a href="https://t.me/icelinepro" className="w-9 h-9 bg-ice-graphite flex items-center justify-center hover:bg-ice-red transition-colors" aria-label="Telegram">
-                <MessageCircle size={16} />
+              <a href="https://t.me/iceline_pro" className="w-9 h-9 bg-ice-graphite flex items-center justify-center hover:bg-ice-red transition-colors" aria-label="Telegram">
+                <Send size={16} />
               </a>
-              <a href="https://vk.com/icelinepro" className="w-9 h-9 bg-ice-graphite flex items-center justify-center hover:bg-ice-red transition-colors text-xs font-bold" aria-label="VK">VK</a>
+              <a href="https://vk.ru/club236946159" className="w-9 h-9 bg-ice-graphite flex items-center justify-center hover:bg-ice-red transition-colors text-xs font-bold" aria-label="VK">VK</a>
             </div>
           </div>
 
@@ -47,7 +47,7 @@ export default function Footer() {
           <div>
             <h3 className="font-bold uppercase tracking-wider text-sm mb-4">Каталог</h3>
             <ul className="space-y-2">
-              {[['Хоккейные коньки','/catalog/konki'],['Хоккейные клюшки','/catalog/klyushki'],['Хоккейные шлемы','/catalog/shlemy'],['Перчатки','/catalog/perchatki'],['Хоккейная защита','/catalog/zashita'],['Для вратаря','/catalog/vratar'],['Детское снаряжение','/catalog/detskaya']].map(([l,h]) => (
+              {[['Хоккейные коньки','/catalog/konki'],['Хоккейные клюшки','/catalog/klyushki'],['Хоккейные шлемы','/catalog/shlemy'],['Перчатки','/catalog/perchatki'],['Хоккейная защита','/catalog/zashita'],['Для вратаря','/catalog/vratar'],['Для детей','/catalog/detskaya']].map(([l,h]) => (
                 <li key={h}><Link href={h} className="text-sm text-gray-400 hover:text-ice-red transition-colors">{l}</Link></li>
               ))}
             </ul>
@@ -57,7 +57,7 @@ export default function Footer() {
           <div>
             <h3 className="font-bold uppercase tracking-wider text-sm mb-4">Информация</h3>
             <ul className="space-y-2">
-              {[['О компании','/about'],['Доставка и оплата','/delivery'],['Возврат и обмен','/return'],['Блог','/blog'],['Контакты','/contacts'],['Публичная оферта','/legal/offer'],['Политика конфиденциальности','/legal/privacy']].map(([l,h]) => (
+              {[['О компании','/about'],['Доставка','/delivery'],['Оплата','/payment'],['Возврат и обмен','/return'],['Блог','/blog'],['Контакты','/contacts'],['Публичная оферта','/legal/offer'],['Политика конфиденциальности','/legal/privacy']].map(([l,h]) => (
                 <li key={h}><Link href={h} className="text-sm text-gray-400 hover:text-ice-red transition-colors">{l}</Link></li>
               ))}
             </ul>
@@ -70,8 +70,8 @@ export default function Footer() {
               <div className="flex items-start gap-3">
                 <Phone size={15} className="text-ice-red mt-0.5 flex-shrink-0" />
                 <div>
-                  <a href="tel:+79001234567" className="text-sm text-white font-medium hover:text-ice-red">+7 (900) 123-45-67</a>
-                  <div className="flex items-center gap-1 text-xs text-gray-500 mt-0.5"><Clock size={10} /> Пн–Пт 9:00–20:00</div>
+                  <a href="tel:+79934703548" className="text-sm text-white font-medium hover:text-ice-red">+7 993 470 3548</a>
+                  <div className="flex items-center gap-1 text-xs text-gray-500 mt-0.5"><Clock size={10} /> Пн–Пт 10:00–18:00</div>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -79,8 +79,8 @@ export default function Footer() {
                 <a href="mailto:info@icelinepro.ru" className="text-sm text-gray-400 hover:text-white">info@icelinepro.ru</a>
               </div>
               <div className="flex items-center gap-3">
-                <MessageCircle size={15} className="text-ice-red flex-shrink-0" />
-                <a href="https://t.me/icelinepro" className="text-sm text-gray-400 hover:text-white">@icelinepro</a>
+                <Send size={15} className="text-ice-red flex-shrink-0" />
+                <a href="https://t.me/iceline_pro" className="text-sm text-gray-400 hover:text-white">@iceline_pro</a>
               </div>
             </div>
 
@@ -107,7 +107,7 @@ export default function Footer() {
 
       <div className="border-t border-ice-graphite">
         <div className="container-ice py-4 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-gray-500">© 2026 ICELINE PRO. Все права защищены.</p>
+          <p className="text-xs text-gray-500">© 2026 АЙСЛАЙН ПРО. Все права защищены.</p>
           <div className="flex items-center gap-4 text-xs text-gray-600">
             <span>Visa · Mastercard · МИР · СБП · ЮKassa</span>
           </div>

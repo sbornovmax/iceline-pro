@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { ChevronRight, Award, Users, Truck, Shield, Star, Target } from 'lucide-react'
+import { ChevronRight, Award, Users, Truck, Percent, Briefcase, Target } from 'lucide-react'
 
-export const metadata = { title: 'О компании ICELINE PRO' }
+export const metadata = { title: 'О компании АЙСЛАЙН ПРО' }
 
 export default function AboutPage() {
   return (
@@ -15,9 +15,9 @@ export default function AboutPage() {
             <span className="text-white">О компании</span>
           </nav>
           <p className="text-ice-red text-xs font-bold uppercase tracking-[0.3em] mb-3">С 2018 года</p>
-          <h1 className="text-4xl md:text-6xl font-black uppercase mb-4">ICELINE PRO</h1>
+          <h1 className="text-4xl md:text-6xl font-black uppercase mb-4">АЙСЛАЙН ПРО</h1>
           <p className="text-gray-300 text-lg max-w-xl leading-relaxed">
-            Профессиональный интернет-магазин хоккейного снаряжения. Мы помогаем хоккеистам всех уровней — от начинающих до профессионалов.
+            Помогаем игрокам любого уровня выходить на лед в надежной и оригинальной экипировке.
           </p>
         </div>
       </div>
@@ -28,7 +28,7 @@ export default function AboutPage() {
           {[
             { value: '6+', label: 'лет на рынке' },
             { value: '12 000+', label: 'довольных клиентов' },
-            { value: '3 000+', label: 'товаров в каталоге' },
+            { value: '500+', label: 'товаров в каталоге' },
             { value: '98%', label: 'положительных отзывов' },
           ].map(({ value, label }) => (
             <div key={label} className="text-center border border-gray-100 p-6">
@@ -55,8 +55,8 @@ export default function AboutPage() {
                 { icon: Award, text: 'Только оригинальная продукция от официальных дистрибьюторов' },
                 { icon: Users, text: 'Консультанты с хоккейным опытом помогут с выбором' },
                 { icon: Truck, text: 'Быстрая доставка по всей России — СДЭК, Почта России' },
-                { icon: Shield, text: 'Официальная гарантия на весь товар' },
-                { icon: Star, text: 'Программа лояльности и скидки постоянным покупателям' },
+                { icon: Percent, text: 'Честные цены: Актуальная стоимость без скрытых наценок.' },
+                { icon: Briefcase, text: 'Опт и розница: Работаем с физическими и юридическими лицами.' },
                 { icon: Target, text: 'Подбор снаряжения под любой уровень и бюджет' },
               ].map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-start gap-3">
@@ -70,9 +70,9 @@ export default function AboutPage() {
 
         {/* Brands */}
         <div className="border-t pt-12 mb-12">
-          <h2 className="section-title mb-8 text-center">Официальные партнёры</h2>
+          <h2 className="section-title mb-8 text-center">Официальные партнеры</h2>
           <div className="flex flex-wrap justify-center gap-8">
-            {['BAUER', 'CCM', 'WARRIOR', 'SHERWOOD', 'FISCHER', 'SUPREME', 'MAD GUY'].map(b => (
+            {['BAUER', 'CCM', 'WARRIOR', 'SHERWOOD', 'FISCHER', 'MAD GUY'].map(b => (
               <div key={b} className="border border-gray-100 px-8 py-4 hover:border-ice-red transition-colors">
                 <p className="text-xl font-black text-gray-300 hover:text-ice-red transition-colors">{b}</p>
               </div>
@@ -85,7 +85,7 @@ export default function AboutPage() {
           <p className="text-2xl font-black uppercase mb-2">Нужна консультация?</p>
           <p className="text-gray-400 mb-6">Наши эксперты помогут подобрать снаряжение именно для вас</p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <a href="tel:+79001234567" className="btn-red">Позвонить</a>
+            <a href="tel:+79934703548" className="btn-red">Позвонить</a>
             <Link href="/contacts" className="btn-outline border-white text-white hover:bg-white hover:text-ice-black">Написать</Link>
           </div>
         </div>
