@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Package, ShoppingBag, Users, TrendingUp, Plus, Pencil, Trash2, Search,
-  Upload, Eye, Tag, Star, Bell, X, LogOut, FileText, FolderTree, Settings as SettingsIcon, ShieldCheck,
+  Upload, Eye, Tag, Star, Bell, X, LogOut, FileText, Folder, ShieldCheck,
 } from 'lucide-react'
 import { PRODUCTS, CATEGORIES, type Product } from '@/lib/data'
 import Link from 'next/link'
@@ -443,7 +443,7 @@ export default function AdminDashboardClient({ role }: { role: AdminRole }) {
         {tab === 'Категории' && (
           <div className="space-y-4">
             <DemoBanner />
-            <button onClick={addCategory} className="btn-red flex items-center gap-2 !py-2.5 text-sm"><Plus size={14} /><FolderTree size={14} /> Добавить категорию</button>
+            <button onClick={addCategory} className="btn-red flex items-center gap-2 !py-2.5 text-sm"><Plus size={14} /><Folder size={14} /> Добавить категорию</button>
             <div className="space-y-3">
               {categories.map((cat, ci) => (
                 <div key={cat.id} className="bg-white border border-gray-100 p-5">
