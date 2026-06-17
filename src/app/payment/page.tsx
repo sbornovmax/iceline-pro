@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ChevronRight, CreditCard, Shield, Clock, Smartphone } from 'lucide-react'
+import { ChevronRight, CreditCard, Smartphone, Clock, Shield } from 'lucide-react'
 
 export const metadata = { title: 'Оплата' }
 
@@ -18,22 +18,22 @@ export default function PaymentPage() {
         {[
           {
             icon: CreditCard, title: 'Банковская карта', color: 'bg-blue-50 border-blue-200',
-            desc: 'Оплата картами Visa, Mastercard и МИР через защищённый платёжный шлюз ЮKassa. Данные вашей карты не хранятся на нашем сайте.',
+            desc: 'Оплата картами Visa, Mastercard и МИР через защищенный платежный шлюз ЮKassa. Данные вашей карты не хранятся на нашем сайте.',
             details: ['Мгновенное зачисление', 'SSL шифрование 256-bit', 'Поддержка 3D-Secure'],
           },
           {
             icon: Smartphone, title: 'СБП — Система быстрых платежей', color: 'bg-green-50 border-green-200',
-            desc: 'Оплата через QR-код или ссылку напрямую с банковского счёта. Мгновенное зачисление без комиссии.',
+            desc: 'Оплата через QR-код или ссылку напрямую с банковского счета. Мгновенное зачисление без комиссии.',
             details: ['Без комиссии', 'Мгновенное зачисление', 'Любой банк РФ'],
           },
           {
-            icon: CreditCard, title: 'Тинькофф Касса', color: 'bg-yellow-50 border-yellow-200',
-            desc: 'Оплата через Тинькофф Pay. Удобно для клиентов Тинькофф Банка — платёж в один клик.',
+            icon: CreditCard, title: 'Т-Банк Касса', color: 'bg-yellow-50 border-yellow-200',
+            desc: 'Оплата через Т-Банк Pay. Удобно для клиентов Т-Банка — платеж в один клик.',
             details: ['Кешбэк до 30%', 'Оплата в 1 клик', 'Рассрочка 0%'],
           },
           {
             icon: Clock, title: 'Я.Сплит — рассрочка', color: 'bg-purple-50 border-purple-200',
-            desc: 'Купите сейчас, платите частями. Разбейте платёж на 4 равные части без процентов и переплат.',
+            desc: 'Купите сейчас, платите частями. Разбейте платеж на 4 равные части без процентов и переплат.',
             details: ['4 платежа без %', 'Одобрение за 1 мин', 'Без справок'],
           },
         ].map(({ icon: Icon, title, color, desc, details }) => (
@@ -52,12 +52,11 @@ export default function PaymentPage() {
         ))}
       </div>
 
-      {/* Security block */}
       <div className="bg-ice-black text-white p-8 flex flex-col md:flex-row items-center gap-6">
         <Shield size={48} className="text-ice-red flex-shrink-0" />
         <div>
           <h3 className="font-black text-xl mb-2">Безопасность платежей</h3>
-          <p className="text-gray-400 text-sm">Все платежи обрабатываются через сертифицированные платёжные системы. Мы никогда не храним данные вашей карты. Ваша персональная информация защищена протоколом SSL.</p>
+          <p className="text-gray-400 text-sm">Все платежи обрабатываются через сертифицированные платежные системы. Мы никогда не храним данные вашей карты. Ваша персональная информация защищена протоколом SSL.</p>
         </div>
       </div>
     </div>

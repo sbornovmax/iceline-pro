@@ -15,14 +15,13 @@ export default function ContactsPage() {
       <h1 className="section-title mb-8">Контакты</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* Contacts info */}
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { icon: Phone, title: 'Телефон', value: '+7 (900) 123-45-67', href: 'tel:+79001234567', sub: 'Пн–Пт 9:00–20:00' },
+              { icon: Phone, title: 'Телефон', value: '+7 993 470 3548', href: 'tel:+79934703548', sub: 'ПН-ВС 10:00–18:00' },
               { icon: Mail, title: 'Email', value: 'info@icelinepro.ru', href: 'mailto:info@icelinepro.ru', sub: 'Ответим в течение часа' },
-              { icon: MessageCircle, title: 'Telegram', value: '@icelinepro', href: 'https://t.me/icelinepro', sub: 'Быстрый ответ' },
-              { icon: Clock, title: 'Режим работы', value: 'Пн–Пт 9:00–20:00', href: null, sub: 'Сб 10:00–18:00' },
+              { icon: MessageCircle, title: 'Telegram', value: '@iceline_pro', href: 'https://t.me/iceline_pro', sub: 'Быстрый ответ' },
+              { icon: Clock, title: 'Режим работы', value: 'ПН-ВС 10:00–18:00', href: null, sub: 'Без выходных' },
             ].map(({ icon: Icon, title, value, href, sub }) => (
               <div key={title} className="border border-gray-100 p-5">
                 <Icon size={20} className="text-ice-red mb-3" />
@@ -37,7 +36,6 @@ export default function ContactsPage() {
             ))}
           </div>
 
-          {/* Contact form */}
           <div className="border border-gray-100 p-6">
             <h2 className="font-black text-lg mb-4 uppercase">Написать нам</h2>
             <div className="space-y-3">
@@ -60,7 +58,6 @@ export default function ContactsPage() {
           </div>
         </div>
 
-        {/* Map placeholder */}
         <div className="space-y-4">
           <div className="bg-ice-gray h-80 flex items-center justify-center border border-gray-100">
             <div className="text-center">
