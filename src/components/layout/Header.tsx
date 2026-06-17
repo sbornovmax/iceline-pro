@@ -75,7 +75,7 @@ export default function Header() {
               </div>
             </form>
 
-            <div className="flex items-center gap-0.5 flex-shrink-0">
+            <div className="flex items-center gap-0.5 flex-shrink-0 ml-auto">
               <Link href="/auth/login" className="flex flex-col items-center gap-0.5 p-2 hover:text-ice-red transition-colors group">
                 <User size={20} />
                 <span className="text-[10px] hidden md:block text-gray-500 group-hover:text-ice-red">Кабинет</span>
