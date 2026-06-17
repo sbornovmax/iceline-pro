@@ -9,28 +9,28 @@ export type Product = {
 }
 
 export const CATEGORIES: Category[] = [
-  { id: '1', name: 'Хоккейные коньки', slug: 'konki', icon: '⛸️',
+  { id: '1', name: 'Хоккейные коньки', slug: 'konki', icon: 'skates',
     subcategories: [{ name: 'Взрослые (SR)', slug: 'konki-sr' }, { name: 'Подростковые (INT)', slug: 'konki-int' }, { name: 'Юниорские (JR)', slug: 'konki-jr' }, { name: 'Детские (YTH)', slug: 'konki-yth' }, { name: 'Роликовые коньки', slug: 'rolikovye' }]
   },
-  { id: '2', name: 'Хоккейные клюшки', slug: 'klyushki', icon: '🏒',
+  { id: '2', name: 'Хоккейные клюшки', slug: 'klyushki', icon: 'stick',
     subcategories: [{ name: 'Взрослые (SR)', slug: 'klyushki-sr' }, { name: 'Подростковые (INT)', slug: 'klyushki-int' }, { name: 'Юниорские (JR)', slug: 'klyushki-jr' }, { name: 'Детские (YTH)', slug: 'klyushki-yth' }, { name: 'Крюки, Трубы', slug: 'kruki' }, { name: 'Флорбол', slug: 'florbol' }]
   },
-  { id: '3', name: 'Хоккейные шлемы', slug: 'shlemy', icon: '⛑️',
+  { id: '3', name: 'Хоккейные шлемы', slug: 'shlemy', icon: 'helmet',
     subcategories: [{ name: 'Хоккейные шлемы', slug: 'shlemy-all' }, { name: 'Маски, Визоры', slug: 'maski' }, { name: 'Аксессуары для шлема', slug: 'aksessuary-shlem' }]
   },
-  { id: '4', name: 'Хоккейные перчатки', slug: 'perchatki', icon: '🥊',
+  { id: '4', name: 'Хоккейные перчатки', slug: 'perchatki', icon: 'gloves',
     subcategories: [{ name: 'Взрослые (SR)', slug: 'perchatki-sr' }, { name: 'Подростковые (INT)', slug: 'perchatki-int' }, { name: 'Юниорские (JR)', slug: 'perchatki-jr' }, { name: 'Детские (YTH)', slug: 'perchatki-yth' }]
   },
-  { id: '5', name: 'Хоккейная защита', slug: 'zashita', icon: '🛡️',
+  { id: '5', name: 'Хоккейная защита', slug: 'zashita', icon: 'protection',
     subcategories: [{ name: 'Нагрудники', slug: 'nagrudniki' }, { name: 'Налокотники', slug: 'nalokotniki' }, { name: 'Трусы (шорты)', slug: 'trusy' }, { name: 'Щитки (наколенники)', slug: 'shitki' }]
   },
-  { id: '6', name: 'Хоккейные аксессуары', slug: 'aksessuary', icon: '🎒',
+  { id: '6', name: 'Хоккейные аксессуары', slug: 'aksessuary', icon: 'bag',
     subcategories: [{ name: 'Хоккейные сумки', slug: 'sumki' }, { name: 'Тейп и лента', slug: 'tejp' }, { name: 'Стельки', slug: 'stelki' }]
   },
-  { id: '7', name: 'Для вратаря', slug: 'vratar', icon: '🥅',
+  { id: '7', name: 'Для вратаря', slug: 'vratar', icon: 'goalie',
     subcategories: [{ name: 'Вратарские коньки', slug: 'vrat-konki' }, { name: 'Вратарские перчатки', slug: 'vrat-perchatki' }, { name: 'Вратарские шлемы', slug: 'vrat-shlemy' }, { name: 'Вратарские нагрудники', slug: 'vrat-nagrudniki' }, { name: 'Вратарские налокотники', slug: 'vrat-nalokotniki' }, { name: 'Вратарские трусы (шорты)', slug: 'vrat-trusy' }, { name: 'Вратарские щитки (наколенники)', slug: 'vrat-shitki' }, { name: 'Маски вратаря', slug: 'vrat-maski' }]
   },
-  { id: '8', name: 'Для детей', slug: 'detskaya', icon: '👦',
+  { id: '8', name: 'Для детей', slug: 'detskaya', icon: 'kids',
     subcategories: [{ name: 'Детские наборы', slug: 'nabory' }, { name: 'Детское снаряжение', slug: 'detskoe' }]
   },
 ]

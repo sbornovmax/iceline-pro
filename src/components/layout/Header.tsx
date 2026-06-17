@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Search, User, Heart, BarChart2, Phone, Menu, X, ChevronDown, Send } from 'lucide-react'
 import { CATEGORIES } from '@/lib/data'
 import CartIcon from '@/components/ui/CartIcon'
+import CategoryIcon from '@/components/icons/CategoryIcon'
 import { useFav } from '@/context/FavContext'
 import { useRouter } from 'next/navigation'
 
@@ -127,7 +128,7 @@ export default function Header() {
                     {CATEGORIES.map(cat => (
                       <Link key={cat.id} href={`/catalog/${cat.slug}`} onMouseEnter={() => setActiveCat(cat)}
                         className={`flex items-center gap-3 w-full px-3 py-2.5 text-sm text-left transition-colors ${activeCat.id === cat.id ? 'bg-ice-red text-white font-bold' : 'hover:bg-gray-50 text-gray-700'}`}>
-                        <span>{cat.icon}</span><span>{cat.name}</span>
+                        <CategoryIcon name={cat.icon} className="w-4 h-4 flex-shrink-0" /><span>{cat.name}</span>
                         <ChevronDown size={12} className="ml-auto -rotate-90" />
                       </Link>
                     ))}
@@ -163,7 +164,7 @@ export default function Header() {
               {CATEGORIES.map(cat => (
                 <Link key={cat.id} href={`/catalog/${cat.slug}`} onClick={() => setMenuOpen(false)}
                   className="flex items-center gap-3 px-3 py-2.5 text-sm hover:bg-ice-gray hover:text-ice-red transition-colors">
-                  <span>{cat.icon}</span>{cat.name}
+                  <CategoryIcon name={cat.icon} className="w-4 h-4 flex-shrink-0" />{cat.name}
                 </Link>
               ))}
               <hr className="my-3" />
